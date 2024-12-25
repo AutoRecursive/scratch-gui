@@ -10,6 +10,7 @@ const MENU_LOGIN = 'loginMenu';
 const MENU_MODE = 'modeMenu';
 const MENU_SETTINGS = 'settingsMenu';
 const MENU_THEME = 'themeMenu';
+const MENU_AI_ASSISTANT = 'aiAssistantMenu';
 
 class Menu {
     constructor (id) {
@@ -59,7 +60,8 @@ const rootMenu = new Menu('root')
     .addChild(new Menu(MENU_SETTINGS))
     .addChild(new Menu(MENU_LOGIN))
     .addChild(new Menu(MENU_ACCOUNT))
-    .addChild(new Menu(MENU_ABOUT));
+    .addChild(new Menu(MENU_ABOUT))
+    .addChild(new Menu(MENU_AI_ASSISTANT));
 
 const initialState = {
     [MENU_ABOUT]: false,
@@ -70,7 +72,8 @@ const initialState = {
     [MENU_LOGIN]: false,
     [MENU_MODE]: false,
     [MENU_SETTINGS]: false,
-    [MENU_THEME]: false
+    [MENU_THEME]: false,
+    [MENU_AI_ASSISTANT]: false
 };
 
 const reducer = function (state, action) {
@@ -146,6 +149,10 @@ const openThemeMenu = () => openMenu(MENU_THEME);
 const closeThemeMenu = () => closeMenu(MENU_THEME);
 const themeMenuOpen = state => state.scratchGui.menus[MENU_THEME];
 
+const openAiAssistantModal = () => openMenu(MENU_AI_ASSISTANT);
+const closeAiAssistantModal = () => closeMenu(MENU_AI_ASSISTANT);
+const aiAssistantModalOpen = state => state.scratchGui.menus[MENU_AI_ASSISTANT];
+
 export {
     reducer as default,
     initialState as menuInitialState,
@@ -175,5 +182,8 @@ export {
     settingsMenuOpen,
     openThemeMenu,
     closeThemeMenu,
-    themeMenuOpen
+    themeMenuOpen,
+    openAiAssistantModal,
+    closeAiAssistantModal,
+    aiAssistantModalOpen
 };

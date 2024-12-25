@@ -30,6 +30,7 @@ import Alerts from '../../containers/alerts.jsx';
 import DragLayer from '../../containers/drag-layer.jsx';
 import ConnectionModal from '../../containers/connection-modal.jsx';
 import TelemetryModal from '../telemetry-modal/telemetry-modal.jsx';
+import AiAssistantModal from '../../containers/ai-assistant-modal.jsx';
 
 import layout, {STAGE_SIZE_MODES} from '../../lib/layout-constants';
 import {resolveStageSize} from '../../lib/screen-utils';
@@ -62,6 +63,7 @@ const GUIComponent = props => {
         authorId,
         authorThumbnailUrl,
         authorUsername,
+        aiAssistantModalVisible,
         basePath,
         backdropLibraryVisible,
         backpackHost,
@@ -217,6 +219,9 @@ const GUIComponent = props => {
                         vm={vm}
                         onRequestClose={onRequestCloseBackdropLibrary}
                     />
+                ) : null}
+                {aiAssistantModalVisible ? (
+                    <AiAssistantModal />
                 ) : null}
                 <MenuBar
                     accountNavOpen={accountNavOpen}
@@ -384,6 +389,7 @@ GUIComponent.propTypes = {
     authorId: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // can be false
     authorThumbnailUrl: PropTypes.string,
     authorUsername: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // can be false
+    aiAssistantModalVisible: PropTypes.bool,
     backdropLibraryVisible: PropTypes.bool,
     backpackHost: PropTypes.string,
     backpackVisible: PropTypes.bool,
@@ -468,7 +474,8 @@ GUIComponent.defaultProps = {
     isTotallyNormal: false,
     loading: false,
     showComingSoon: false,
-    stageSizeMode: STAGE_SIZE_MODES.large
+    stageSizeMode: STAGE_SIZE_MODES.large,
+    aiAssistantModalVisible: false
 };
 
 const mapStateToProps = state => ({

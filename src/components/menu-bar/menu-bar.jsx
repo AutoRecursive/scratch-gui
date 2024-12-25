@@ -69,7 +69,9 @@ import {
     modeMenuOpen,
     settingsMenuOpen,
     openSettingsMenu,
-    closeSettingsMenu
+    closeSettingsMenu,
+    openAiAssistantModal,
+    closeAiAssistantModal
 } from '../../reducers/menus';
 
 import collectMetadata from '../../lib/collect-metadata';
@@ -85,6 +87,7 @@ import aboutIcon from './icon--about.svg';
 import fileIcon from './icon--file.svg';
 import editIcon from './icon--edit.svg';
 import debugIcon from '../debug-modal/icons/icon--debug.svg';
+import aiAssistantIcon from '../../lib/assets/icon--ai-assistant.svg';
 
 import scratchLogo from './scratch-logo.svg';
 import ninetiesLogo from './nineties_logo.svg';
@@ -188,7 +191,8 @@ class MenuBar extends React.Component {
             'handleKeyPress',
             'handleRestoreOption',
             'getSaveToComputerHandler',
-            'restoreOptionMessage'
+            'restoreOptionMessage',
+            'handleClickAiAssistant'
         ]);
     }
     componentDidMount () {
@@ -326,6 +330,9 @@ class MenuBar extends React.Component {
             />);
         }
         }
+    }
+    handleClickAiAssistant () {
+        this.props.onClickAiAssistant();
     }
     buildAboutMenu (onClickAbout) {
         if (!onClickAbout) {
@@ -619,6 +626,19 @@ class MenuBar extends React.Component {
                                 </MenuBarMenu>
                             </div>
                         )}
+                        <div
+                            className={classNames(styles.menuBarItem, styles.hoverable)}
+                            onMouseUp={this.handleClickAiAssistant}
+                        >
+                            <img src={aiAssistantIcon} />
+                            <span className={styles.collapsibleLabel}>
+                                <FormattedMessage
+                                    defaultMessage="AI Assistant"
+                                    description="Text for AI assistant button"
+                                    id="gui.menuBar.aiAssistant"
+                                />
+                            </span>
+                        </div>
                     </div>
                     {this.props.canEditTitle ? (
                         <div className={classNames(styles.menuBarItem, styles.growable)}>
@@ -944,7 +964,8 @@ MenuBar.propTypes = {
     showComingSoon: PropTypes.bool,
     username: PropTypes.string,
     userOwnsProject: PropTypes.bool,
-    vm: PropTypes.instanceOf(VM).isRequired
+    vm: PropTypes.instanceOf(VM).isRequired,
+    onClickAiAssistant: PropTypes.func.isRequired
 };
 
 MenuBar.defaultProps = {
@@ -1005,7 +1026,8 @@ const mapDispatchToProps = dispatch => ({
     onClickSave: () => dispatch(manualUpdateProject()),
     onClickSaveAsCopy: () => dispatch(saveProjectAsCopy()),
     onSeeCommunity: () => dispatch(setPlayer(true)),
-    onSetTimeTravelMode: mode => dispatch(setTimeTravel(mode))
+    onSetTimeTravelMode: mode => dispatch(setTimeTravel(mode)),
+    onClickAiAssistant: () => dispatch(openAiAssistantModal())
 });
 
 export default compose(

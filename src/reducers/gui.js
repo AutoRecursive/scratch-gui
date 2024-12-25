@@ -1,4 +1,4 @@
-import {applyMiddleware, compose, combineReducers} from 'redux';
+import {combineReducers} from 'redux';
 import alertsReducer, {alertsInitialState} from './alerts';
 import assetDragReducer, {assetDragInitialState} from './asset-drag';
 import cardsReducer, {cardsInitialState} from './cards';
@@ -28,112 +28,7 @@ import toolboxReducer, {toolboxInitialState} from './toolbox';
 import vmReducer, {vmInitialState} from './vm';
 import vmStatusReducer, {vmStatusInitialState} from './vm-status';
 import workspaceMetricsReducer, {workspaceMetricsInitialState} from './workspace-metrics';
-import throttle from 'redux-throttle';
-
-import decks from '../lib/libraries/decks/index.jsx';
-
-const guiMiddleware = compose(applyMiddleware(throttle(300, {leading: true, trailing: true})));
-
-const guiInitialState = {
-    alerts: alertsInitialState,
-    assetDrag: assetDragInitialState,
-    blockDrag: blockDragInitialState,
-    cards: cardsInitialState,
-    colorPicker: colorPickerInitialState,
-    connectionModal: connectionModalInitialState,
-    customProcedures: customProceduresInitialState,
-    editorTab: editorTabInitialState,
-    mode: modeInitialState,
-    hoveredTarget: hoveredTargetInitialState,
-    stageSize: stageSizeInitialState,
-    menus: menuInitialState,
-    micIndicator: micIndicatorInitialState,
-    modals: modalsInitialState,
-    monitors: monitorsInitialState,
-    monitorLayout: monitorLayoutInitialState,
-    projectChanged: projectChangedInitialState,
-    projectState: projectStateInitialState,
-    projectTitle: projectTitleInitialState,
-    fontsLoaded: fontsLoadedInitialState,
-    restoreDeletion: restoreDeletionInitialState,
-    targets: targetsInitialState,
-    theme: themeInitialState,
-    timeout: timeoutInitialState,
-    timeTravel: timeTravelInitialState,
-    toolbox: toolboxInitialState,
-    vm: vmInitialState,
-    vmStatus: vmStatusInitialState,
-    workspaceMetrics: workspaceMetricsInitialState
-};
-
-const initPlayer = function (currentState) {
-    return Object.assign(
-        {},
-        currentState,
-        {mode: {
-            isFullScreen: currentState.mode.isFullScreen,
-            isPlayerOnly: true,
-            // When initializing in player mode, make sure to reset
-            // hasEverEnteredEditorMode
-            hasEverEnteredEditor: false
-        }}
-    );
-};
-const initFullScreen = function (currentState) {
-    return Object.assign(
-        {},
-        currentState,
-        {mode: {
-            isFullScreen: true,
-            isPlayerOnly: currentState.mode.isPlayerOnly,
-            hasEverEnteredEditor: currentState.mode.hasEverEnteredEditor
-        }}
-    );
-};
-
-const initEmbedded = function (currentState) {
-    return Object.assign(
-        {},
-        currentState,
-        {mode: {
-            showBranding: true,
-            isFullScreen: true,
-            isPlayerOnly: true,
-            hasEverEnteredEditor: false
-        }}
-    );
-};
-
-const initTutorialCard = function (currentState, deckId) {
-    return Object.assign(
-        {},
-        currentState,
-        {
-            cards: {
-                visible: true,
-                content: decks,
-                activeDeckId: deckId,
-                expanded: true,
-                step: 0,
-                x: 0,
-                y: 0,
-                dragging: false
-            }
-        }
-    );
-};
-
-const initTelemetryModal = function (currentState) {
-    return Object.assign(
-        {},
-        currentState,
-        {
-            modals: {
-                telemetryModal: true // this key must match `MODAL_TELEMETRY` in modals.js
-            }
-        }
-    );
-};
+import aiAssistantReducer, {aiAssistantInitialState} from './ai-assistant';
 
 const guiReducer = combineReducers({
     alerts: alertsReducer,
@@ -164,16 +59,44 @@ const guiReducer = combineReducers({
     toolbox: toolboxReducer,
     vm: vmReducer,
     vmStatus: vmStatusReducer,
-    workspaceMetrics: workspaceMetricsReducer
+    workspaceMetrics: workspaceMetricsReducer,
+    aiAssistant: aiAssistantReducer
 });
 
 export {
     guiReducer as default,
-    guiInitialState,
-    guiMiddleware,
-    initEmbedded,
-    initFullScreen,
-    initPlayer,
-    initTelemetryModal,
-    initTutorialCard
+    initialState as guiInitialState
+};
+
+const initialState = {
+    alerts: alertsInitialState,
+    assetDrag: assetDragInitialState,
+    blockDrag: blockDragInitialState,
+    cards: cardsInitialState,
+    colorPicker: colorPickerInitialState,
+    connectionModal: connectionModalInitialState,
+    customProcedures: customProceduresInitialState,
+    editorTab: editorTabInitialState,
+    mode: modeInitialState,
+    hoveredTarget: hoveredTargetInitialState,
+    stageSize: stageSizeInitialState,
+    menus: menuInitialState,
+    micIndicator: micIndicatorInitialState,
+    modals: modalsInitialState,
+    monitors: monitorsInitialState,
+    monitorLayout: monitorLayoutInitialState,
+    projectChanged: projectChangedInitialState,
+    projectState: projectStateInitialState,
+    projectTitle: projectTitleInitialState,
+    fontsLoaded: fontsLoadedInitialState,
+    restoreDeletion: restoreDeletionInitialState,
+    targets: targetsInitialState,
+    theme: themeInitialState,
+    timeout: timeoutInitialState,
+    timeTravel: timeTravelInitialState,
+    toolbox: toolboxInitialState,
+    vm: vmInitialState,
+    vmStatus: vmStatusInitialState,
+    workspaceMetrics: workspaceMetricsInitialState,
+    aiAssistant: aiAssistantInitialState
 };
